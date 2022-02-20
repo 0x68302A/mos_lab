@@ -2,8 +2,10 @@
   <name>$NETWORK_FULL_ID</name>
   <forward mode='open'/>
   <bridge name='$NETWORK_FULL_ID' stp='on' delay='0'/>
-  <ip address='10.0.4.1' netmask='255.255.255.0'>  
+   <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.128' end='192.168.122.254'/>
+    </dhcp>
   </ip>
-  <dns enable='no'/>
 </network>
 

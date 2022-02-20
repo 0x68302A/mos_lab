@@ -1,9 +1,0 @@
-#!/bin/bash
-
-echo "root:root" | chpasswd
-
-export DEBIAN_FRONTEND=noninteractive
-dpkg-reconfigure debconf -f noninteractive -p critical
-
-echo "force-confold" >> /etc/dpkg/dpkg.cfg
-echo "force-confdef" >> /etc/dpkg/dpkg.cfg

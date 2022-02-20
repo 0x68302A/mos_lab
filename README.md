@@ -1,39 +1,33 @@
-## `mos_sec` is a Family for `merOS-virt`
+## `mos_lab` is a Family for `merOS-virt`
 
 
-Based on **Debian**, **2 Targets** ( VMs ) comprised of a *whonix-like* <br> network configuration, provide a ***safe framework for research.***
+Based on **Debian**, **2 Targets** ( VMs ) comprised of a bridged <br> network configuration, provides a ***Virtual, OS analysis lab***.
 ___
 
-### `mos_sec-firewall` :: Acts as a firewall VM- <br>
+### `mos_lab-panther` :: Acts as the Workstation- <br>
 
-In NAT connection with the host network, <br> 
- **accepts all** all `TCP 80, 443` connections. <br>
-
-Running only a `tor-daemon` with a **single open port,** <br> 
-it serves the isolated network `mos_sec_priv`.
-
+Bridged with `mos_lab-target`, <br> 
+and equiped with a multitude of pen-testing applications,<br> 
+it allows for a machine capable of securely analyzing an image (`target`).<br>
 ___
 
-### `mos_sec-guest` :: Acts as a guest VM- <br>
+### `mos_lab-tagert` :: Acts as the Victim Machine- <br>
 
-Bridged with `mos_sec-firewall`, <br> 
-with a single SSH port exposed to the host,<br> 
-it allows for an configurable, accessible and disposable Target.<br>
+Bridged with `mos_lab-panther`, <br> 
+can be a pre-build .iso, .qcow2 or .raw machine.<br> 
+**Vulnhub.com is a great resource for such machines.** <br>
 
 ___
 
 Networking is provided by `libvirt` (@ `libvirt/net_*`) <br>
-and routing and firewall options by `nftables` (@ `hooks/*`)
+and routes all traffic in the isolated network.
 
 ---
 
-Connection to the `guest` ( `mos_sec-guest` ) can be achieved with `-c|--connect` and/ or `--run` `mos_sec-guest`<br>
+Connection to the `panther` ( `mos_lab-panther` ) can be achieved with `-c|--connect` and/ or `--run` `mos_lab-panther`<br>
+*ex.* `meros --run mos_lab-panther konsole`
 
-Internet access from within- <br>
-can be gained with `torsocks` or `proxychains.` <br>
-
-These packages come **preinstalled** and **preconfigured** with the right `HOST:PORT` options. <br>
-
+Internet access is not provided- <br>
 ___
 
 Configuration files exploration is **encouraged**,
