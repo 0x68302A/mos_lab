@@ -1,6 +1,13 @@
 auto enp2s1
 iface enp2s1 inet static
-        address 192.168.122.2
-        gateway 192.168.122.1
-        network 192.168.122.0
+        address 10.0.2.4
+        gateway 10.0.2.1
+        network 10.0.2.0
+        netmask 255.255.255.0
+
+auto enp2s2
+iface enp2s2 inet static
+        address 10.0.4.4
+        gateway 10.0.4.1
+        network	10.0.4.0
         netmask 255.255.255.0
