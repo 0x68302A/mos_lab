@@ -52,8 +52,8 @@
       <address bus="0x00" domain="0x0000" function="0x1" slot="0x01" type="pci" />
     </controller>
     <interface type="network">
-      <source network="mos_lab-priv" />
-      <target dev='mos_ltpr.nic'/>
+      <source network="mos_lab-priv-02" />
+      <target dev='mos_ltpr02.nic'/>
       <model type="e1000" />
     </interface>
     <serial type="pty">
