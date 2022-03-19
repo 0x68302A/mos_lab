@@ -1,0 +1,4 @@
+<target>
+	<build id="firewall" kernel="yes" rootfs="yes" distro="debian" />
+        <size free_space_mb="200" />
+</target>

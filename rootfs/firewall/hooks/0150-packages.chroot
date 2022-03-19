@@ -1,0 +1,17 @@
+#!/bin/bash
+
+## Define Packages into groups, flexible
+PACKAGES_MOS="apt-utils ifupdown rsync sudo iputils-ping tor resolvconf ssh locales"
+PACKAGES_USER="net-tools htop nano"
+
+chmod 1777 /tmp
+
+## Install Packages
+export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+apt update
+
+dpkg --configure -a
+apt install -o Dpkg::Options::="--force-confold" -y $PACKAGES_MOS $PACKAGES_USER $PACKAGES_OFFSEC
+
+## Configure system-mos Packages
+systemctl -q enable tor
