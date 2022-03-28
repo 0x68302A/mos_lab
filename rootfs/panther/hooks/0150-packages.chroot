@@ -7,8 +7,10 @@ PACKAGES_USER="python3 python3-pip gawk firefox-esr wget curl git ssh net-tools 
 PACKAGES_XORG="xorg xserver-xorg xdg-utils libdbus-glib-1-2 libcanberra-gtk-module libcanberra-gtk3-module"
 PACKAGES_GRAPHICAL="xfce4 xfce4-goodies xpra python3-dbus dbus-x11"
 
-PACKAGES_OFFSEC="hydra hexchat whois dnsutils ruby-dev ftp python2 nmap ruby gnupg2 default-mysql-client telnet netcat perl golang"
-
+PACKAGES_COMM="hexchat"
+PACKAGES_EXTRA="dnsutils ftp python2 telnet netcat gnupg2"
+PACKAGES_OFFSEC="hydra whois nmap default-mysql-client"
+PACKAGES_DEV="libssl-dev libcurl4-openssl-dev ruby ruby-dev perl golang"
 
 chmod 1777 /tmp
 
@@ -22,45 +24,61 @@ dpkg --configure -a
 
 ## Update & Install packages
 apt update && apt install -o Dpkg::Options::="--force-confold" -y \
-$PACKAGES_MOS $PACKAGES_USER $PACKAGES_XORG $PACKAGES_GRAPHICAL $PACKAGES_OFFSEC
+$PACKAGES_MOS $PACKAGES_USER $PACKAGES_XORG $PACKAGES_GRAPHICAL $PACKAGES_OFFSEC $PACKAGES_EXTRA $PACKAGES_COMM $PACKAGES_DEV
 
 ## Configure system-mos Packages
-systemctl -q disable tor
+systemctl -q disable tor ## Since we're using mos_lab-panther as the gateway, which serves all tor routing
 systemctl -q disable openvpn
 
-## Clone relevant projects
-git clone --depth 1 https://github.com/offensive-security/exploitdb.git /opt/exploitdb
-git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /opt/sqlmap-dev
-git clone --depth 1 https://github.com/sullo/nikto.git /opt/nikto
-git clone --depth 1 https://github.com/CiscoCXSecurity/enum4linux.git /opt/enum4linux
-git clone --depth 1 https://github.com/digininja/RSMangler.git /opt/rsmangler
-git clone --depth 1 https://github.com/urbanadventurer/WhatWeb.git /opt/whatweb
-wget -nc https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb \
--P /opt/
-wget -nc https://github.com/OWASP/Amass/releases/download/v3.17.1/amass_linux_amd64.zip \
--P /opt/
-
-## Symlink, Install these projects
-ln -sf /opt/enum4linux/enum4linux.pl /usr/local/bin/enum4linux
-ln -sf /opt/rsmangler/rsmangler.rb /usr/bin/rsmangler
-ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
-ln -sf /opt/sqlmap-dev/sqlmap.py /usr/local/bin/sqlmap
-ln -sf /opt/nikto/program/nikto.pl /usr/local/bin/nikto
-ln -sf /opt/rsmangler/rsmangler.rb /usr/local/bin/rsmangler
-ln -sf /opt/whatweb/whatweb /usr/local/bin/whatweb
-chmod +x /opt/msfupdate.erb && ./opt/msfupdate.erb
-cd /opt/ && unzip amass_linux_amd64.zip && cd ~
-ln -sf /opt/amass_linux_amd64/amass /usr/local/bin/amass
-
-## Get, configure, and symlink tor-browser
+## Get, configure, and symlink mos-modified tor-browser
 wget -nc https://github.com/TheTorProject/gettorbrowser/releases/download/torbrowser-release/tor-browser-linux64-9.0.4_en-US.tar.xz \
--P /opt/mos-tbb_patch.d/
+-P /opt/mos-tbb_patch.d/ && cd /opt/mos-tbb_patch.d/ && ./mos-tbb_patch.sh && cd ~
 
-cd /opt/mos-tbb_patch.d/ && ./mos-tbb_patch.sh && cd ~
+ln -s /usr/bin/python3 /usr/bin/python
 
-## Get, configure, install, other packages.
+##############################
+## PANTHER PENTESTING SUITE ##
+##############################
 
-gem install wpscan
-wpscan --update
+## The projects below may be removed/ or manipulated
+## Increasing flexibility, and reducing build size
 
-pip3 install mitmproxy
+## Clone source packages source code, and symlink
+
+git clone --depth 1 https://github.com/offensive-security/exploitdb.git /opt/exploitdb
+ln -sf /opt/exploitdb/searchsploit /usr/local/bin/searchsploit
+
+git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git /opt/sqlmap-dev
+ln -sf /opt/sqlmap-dev/sqlmap.py /usr/local/bin/sqlmap
+
+git clone --depth 1 https://github.com/sullo/nikto.git /opt/nikto
+ln -sf /opt/nikto/program/nikto.pl /usr/local/bin/nikto
+
+git clone --depth 1 https://github.com/CiscoCXSecurity/enum4linux.git /opt/enum4linux
+ln -sf /opt/enum4linux/enum4linux.pl /usr/local/bin/enum4linux
+
+git clone --depth 1 https://github.com/digininja/RSMangler.git /opt/rsmangler
+ln -sf /opt/rsmangler/rsmangler.rb /usr/local/bin/rsmangler
+
+git clone --depth 1 https://github.com/urbanadventurer/WhatWeb.git /opt/whatweb
+ln -sf /opt/whatweb/whatweb /usr/local/bin/whatweb
+
+git clone --depth 1 https://github.com/xmendez/wfuzz /opt/wfuzz
+su user -c 'pip3 install /opt/wfuzz/wfuzz' ## Install for 'user'
+
+## Metasploit
+wget -nc https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb \
+-P /opt/ && chmod +x /opt/msfupdate.erb && ./opt/msfupdate.erb
+
+## wpscan, a wordpress scanner
+gem install wpscan && su user -c 'wpscan --update'
+
+## Burpsuite, which needs to be installed after rootfs build
+## Because of a missing /proc partition during chroot
+wget -nc -O /opt/burpsuite_community_linux_v2022_2_4.sh \
+'https://portswigger-cdn.net/burp/releases/download?product=community&version=2022.2.4&type=Linux'
+
+## Amass, an attack surface mapping tool from OWASP
+wget -nc https://github.com/OWASP/Amass/releases/download/v3.17.1/amass_linux_amd64.zip \
+-P /opt/ && cd /opt/ && unzip amass_linux_amd64.zip && rm amass_linux_amd64.zip && cd ~
+ln -sf /opt/amass_linux_amd64/amass /usr/local/bin/amass
