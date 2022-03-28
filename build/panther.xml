@@ -1,6 +1,6 @@
 <target>
 	<build id="panther" kernel="yes" rootfs="yes" distro="debian" />
         <details username="user" />
-        <size free_space_mb="1800" />
+        <size free_space_mb="2800" />
         <network network_addr="10.0.2.0" ip_addr="10.0.2.4" ssh_port="2022"/>
 </target>
