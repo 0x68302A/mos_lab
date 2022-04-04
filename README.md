@@ -11,7 +11,7 @@ and equiped with a multitude of pen-testing applications,<br>
 it allows for a machine capable of securely analyzing an image (`target`).<br>
 ___
 
-### `mos_lab-tagert` :: Acts as the Victim Machine- <br>
+### `mos_lab-target` :: Acts as the Victim Machine- <br>
 
 Bridged with `mos_lab-panther`, <br> 
 can be a pre-build .iso, .qcow2 or .raw machine.<br> 
@@ -27,7 +27,8 @@ and routes all traffic in the isolated network.
 Connection to the `panther` ( `mos_lab-panther` ) can be achieved with `-c|--connect` and/ or `--run` `mos_lab-panther`<br>
 *ex.* `meros --run mos_lab-panther konsole`
 
-Internet access is not provided- <br>
+Internet access is ~~not provided-~~ Provided by `mos_lab-firewall` <br>
+( As per mos_sec-firewall ) - Since `b38d413`
 ___
 
 Configuration files exploration is **encouraged**,
