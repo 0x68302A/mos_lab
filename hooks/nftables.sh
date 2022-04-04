@@ -18,6 +18,7 @@ sudo nft "add chain mos_lab-filter host_input { type filter hook input priority 
 
 sudo nft "add rule mos_lab-filter host_input ct state established,related accept;"
 sudo nft "add rule mos_lab-filter host_input iif lo accept;"
+sudo nft "add rule mos_lab-filter host_input iif" $default_iface " accept;"
 
 ## Enable (only) IPV4 forwarding
 sudo sysctl -q net.ipv4.ip_forward=1
