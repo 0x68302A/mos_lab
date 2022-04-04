@@ -8,7 +8,7 @@ PACKAGES_XORG="xorg xserver-xorg xdg-utils libdbus-glib-1-2 libcanberra-gtk-modu
 PACKAGES_GRAPHICAL="xfce4 xfce4-goodies xpra python3-dbus dbus-x11"
 
 PACKAGES_COMM="hexchat"
-PACKAGES_EXTRA="dnsutils ftp python2 telnet netcat gnupg2"
+PACKAGES_EXTRA="smbclient dnsutils ftp python2 telnet netcat gnupg2"
 PACKAGES_OFFSEC="hydra whois nmap default-mysql-client"
 PACKAGES_DEV="libssl-dev libcurl4-openssl-dev ruby ruby-dev perl golang"
 
