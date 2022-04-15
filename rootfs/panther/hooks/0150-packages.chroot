@@ -68,7 +68,7 @@ su user -c 'pip3 install /opt/wfuzz/' ## Install for 'user'
 
 ## Metasploit
 wget -nc https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb \
--P /opt/ && chmod +x /opt/msfupdate.erb && ./opt/msfupdate.erb
+-P /opt/ && chmod +x /opt/msfupdate.erb && /opt/msfupdate.erb
 
 ## wpscan, a wordpress scanner
 gem install wpscan && su user -c 'wpscan --update'
