@@ -8,7 +8,7 @@ PACKAGES_XORG="xorg xserver-xorg xdg-utils libdbus-glib-1-2 libcanberra-gtk-modu
 PACKAGES_GRAPHICAL="xfce4 xfce4-goodies xpra python3-dbus dbus-x11"
 
 PACKAGES_COMM="hexchat"
-PACKAGES_EXTRA="smbclient dnsutils ftp python2 telnet netcat gnupg2"
+PACKAGES_EXTRA="smbclient dnsutils ftp python2 telnet netcat gnupg2 dnsmasq"
 PACKAGES_OFFSEC="hydra whois nmap default-mysql-client"
 PACKAGES_DEV="libssl-dev libcurl4-openssl-dev ruby ruby-dev perl golang"
 
@@ -80,5 +80,5 @@ wget -nc -O /opt/burpsuite_community_linux_v2022_2_4.sh \
 
 ## Amass, an attack surface mapping tool from OWASP
 wget -nc https://github.com/OWASP/Amass/releases/download/v3.17.1/amass_linux_amd64.zip \
--P /opt/ && cd /opt/ && unzip amass_linux_amd64.zip && rm amass_linux_amd64.zip && cd ~
+-P /opt/ && cd /opt/ && unzip -n amass_linux_amd64.zip && rm amass_linux_amd64.zip && cd ~
 ln -sf /opt/amass_linux_amd64/amass /usr/local/bin/amass
