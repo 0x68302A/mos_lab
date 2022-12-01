@@ -64,19 +64,19 @@ git clone --depth 1 https://github.com/urbanadventurer/WhatWeb.git /opt/whatweb
 ln -sf /opt/whatweb/whatweb /usr/local/bin/whatweb
 
 git clone --depth 1 https://github.com/xmendez/wfuzz /opt/wfuzz
-su user -c 'pip3 install /opt/wfuzz/' ## Install for 'user'
+ln -sf /opt/wfuzz/wfuzz /usr/local/bin/wfuzz
 
 ## Metasploit
 wget -nc https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb \
 -P /opt/ && chmod +x /opt/msfupdate.erb && /opt/msfupdate.erb
 
 ## wpscan, a wordpress scanner
-gem install wpscan && su user -c 'wpscan --update'
+gem install wpscan &&
 
 ## Burpsuite, which needs to be installed after rootfs build
 ## Because of a missing /proc partition during chroot
-wget -nc -O /opt/burpsuite_community_linux_v2022_2_4.sh \
-'https://portswigger-cdn.net/burp/releases/download?product=community&version=2022.2.4&type=Linux'
+# wget -nc -O /opt/burpsuite_community_linux_v2022_2_4.sh \
+# 'https://portswigger-cdn.net/burp/releases/download?product=community&version=2022.2.4&type=Linux'
 
 ## Amass, an attack surface mapping tool from OWASP
 wget -nc https://github.com/OWASP/Amass/releases/download/v3.17.1/amass_linux_amd64.zip \
