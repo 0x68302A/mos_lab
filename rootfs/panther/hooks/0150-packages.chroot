@@ -82,3 +82,6 @@ gem install wpscan &&
 wget -nc https://github.com/OWASP/Amass/releases/download/v3.17.1/amass_linux_amd64.zip \
 -P /opt/ && cd /opt/ && unzip -n amass_linux_amd64.zip && rm amass_linux_amd64.zip && cd ~
 ln -sf /opt/amass_linux_amd64/amass /usr/local/bin/amass
+
+## Nuclei, "A Fast and customizable vulnerability scanner"
+go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest

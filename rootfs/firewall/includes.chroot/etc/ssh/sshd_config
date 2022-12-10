@@ -12,7 +12,7 @@
 
 Port 2022
 AddressFamily inet
-ListenAddress 192.168.164.0
+ListenAddress 192.168.164.4
 #ListenAddress ::
 
 HostKey /etc/ssh/ssh_host_rsa_key
